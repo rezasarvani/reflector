@@ -39,4 +39,8 @@ Run the script with:
 ```bash
 python main.py [options] <url>
 ```
+You can get help using the following CLI switch
+```bash
+python main.py -h
+```
 
