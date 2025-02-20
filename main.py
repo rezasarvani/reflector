@@ -10,9 +10,6 @@ import uuid
 from colorama import init, Fore, Style
 import json
 
-
-from openai import verify_ssl_certs
-
 init()
 
 def load_user_agents():
