@@ -24,13 +24,14 @@ def load_user_agents():
 USER_AGENTS = load_user_agents()
 
 class URLParameterTester:
-    def __init__(self, url: str, random_agent: bool, concurrent: int, delay: bool, delay_range: str, exclude: str, debug: bool, include: str):
+    def __init__(self, url: str, random_agent: bool, concurrent: int, delay: bool, delay_range: str, exclude: str, debug: bool, include: str, timeout: int):
         self.url = url
         self.random_agent = random_agent
         self.delay = delay
         self.delay_range = delay_range
         self.exclude = exclude.split(',') if exclude else []
         self.concurrent = concurrent
+        self.timeout = timeout
         self.debug = debug
         self.include = include.split(",") if include else []
         self.test_chars = [
@@ -60,7 +61,7 @@ class URLParameterTester:
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
-        self.timeout = aiohttp.ClientTimeout(total=5)
+        self.timeout = aiohttp.ClientTimeout(total=self.timeout)
 
     def _get_random_headers(self) -> Dict[str, str]:
         """Generate random headers to lower detection profile."""
@@ -209,6 +210,10 @@ def parse_args():
                         type=int,
                         default=5,
                         help="Number of concurrent requests (default: 5)")
+    parser.add_argument("--timeout",
+                        type=int,
+                        default=5,
+                        help="Maximum timeout for each request (default: 5)")
     parser.add_argument("--exclude",
                         type=str,
                         default=False,
@@ -229,6 +234,7 @@ def main():
     tester = URLParameterTester(args.url,
                                 random_agent=args.random_agent,
                                 concurrent=args.concurrent,
+                                timeout=args.timeout,
                                 delay=args.delay,
                                 delay_range=args.delay_range,
                                 debug=args.debug,
