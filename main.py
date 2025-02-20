@@ -13,10 +13,12 @@ import json
 init()
 
 def load_user_agents():
-    file_handle = open("useragents.json", "r")
-    user_agents = json.load(file_handle)
-    file_handle.close()
-    return user_agents
+    try:
+        with open("useragents.json", "r") as file_handle:
+            return json.load(file_handle)
+    except FileNotFoundError:
+        print(f"{Fore.RED}Error: useragents.json not found! Using default User-Agent.{Style.RESET_ALL}")
+        return ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"]
 
 USER_AGENTS = load_user_agents()
 
@@ -254,4 +256,4 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        pass
+        print(f"{Fore.YELLOW}Interrupted by user. Exiting...{Style.RESET_ALL}")
