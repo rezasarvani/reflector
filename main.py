@@ -31,7 +31,7 @@ class URLParameterTester:
         self.delay_range = delay_range
         self.exclude = exclude.split(',') if exclude else []
         self.concurrent = concurrent
-        self.timeout = timeout
+        self.timeoutvalue = timeout
         self.debug = debug
         self.include = include.split(",") if include else []
         self.test_chars = [
@@ -61,7 +61,7 @@ class URLParameterTester:
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
         }
-        self.timeout = aiohttp.ClientTimeout(total=self.timeout)
+        self.timeout = aiohttp.ClientTimeout(total=self.timeoutvalue)
 
     def _get_random_headers(self) -> Dict[str, str]:
         """Generate random headers to lower detection profile."""
@@ -151,6 +151,7 @@ class URLParameterTester:
         print(f"\n{Fore.BLUE}Analyzing URL: {self.url}{Style.RESET_ALL}")
         print(f"{Fore.CYAN}Low profile mode: {'Enabled' if self.random_agent else 'Disabled'}{Style.RESET_ALL}")
         print(f"{Fore.CYAN}Concurrent requests: {self.concurrent}{Style.RESET_ALL}")
+        print(f"{Fore.CYAN}Timeout (Seconds): {self.timeoutvalue}{Style.RESET_ALL}")
         print(f"{Fore.CYAN}Delay: {'Enabled' if self.delay else 'Disabled'}{Style.RESET_ALL}")
         print(f"{Fore.CYAN}Delay Range: {self.delay_range}{Style.RESET_ALL}")
         print(f"{Fore.CYAN}Debug Message: {self.debug}{Style.RESET_ALL}")
