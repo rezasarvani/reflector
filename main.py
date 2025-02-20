@@ -72,8 +72,17 @@ class URLParameterTester:
         """Extract all parameters from the URL."""
         try:
             parsed_url = urllib.parse.urlparse(self.url)
-            query_params = urllib.parse.parse_qs(parsed_url.query)
-            return {k: v[0] if v else "" for k, v in query_params.items()}
+            query_string = parsed_url.query
+            if not query_string:
+                return {}
+            params = {}
+            for pair in query_string.split('&'):
+                if '=' in pair:
+                    key, value = pair.split('=', 1)
+                    params[key] = value
+                else:
+                    params[pair] = ""
+            return params
         except Exception as e:
             print(f"{Fore.RED}Error parsing URL: {e}{Style.RESET_ALL}")
             return {}

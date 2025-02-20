@@ -43,7 +43,3 @@ You can get help using the following CLI switch
 ```bash
 python main.py -h
 ```
-
-## Todo
-* Make it also check empty parameters in input URL (For example it must also check for *test2* query parameter within the https://target.com/main.php?test1=test1&test2=&test3=test3)
-
